@@ -1,5 +1,21 @@
 const formElement = document.getElementById("registrationForm");
 
+const alertDiv = document.createElement("div");
+alertDiv.setAttribute("role", "alert");
+
+function buildAlert(success, msg) {
+  resetAlert();
+  alertDiv.classList.add(success ? "alert-success" : "alert-danger");
+  alertDiv.innerHTML = msg;
+  alertDiv.innerHTML += `
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  `;
+}
+
+function resetAlert() {
+  alertDiv.classList = "alert alert-dismissible fade show";
+}
+
 function getFormdata() {
   const formData = new FormData(formElement);
 
@@ -9,7 +25,10 @@ function getFormdata() {
   return { email, password };
 }
 
-function signup(email, password) {
+formElement.addEventListener("submit", (e) => {
+  const { email, password } = getFormdata();
+  console.log(email, password);
+
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
@@ -21,16 +40,10 @@ function signup(email, password) {
       var errorMessage = error.message;
 
       console.log(errorCode, errorMessage);
+
+      buildAlert(false, errorMessage);
+      formElement.parentElement.insertBefore(alertDiv, formElement);
     });
-}
-
-formElement.addEventListener("submit", (e) => {
-  console.log(e.target);
-
-  const { email, password } = getFormdata();
-  console.log(email, password);
-
-  signup(email, password);
 });
 
 firebase.auth().onAuthStateChanged((user) => {
