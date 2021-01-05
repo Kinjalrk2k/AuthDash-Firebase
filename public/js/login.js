@@ -27,19 +27,19 @@ function getFormdata() {
 
 formElement.addEventListener("submit", (e) => {
   const { email, password } = getFormdata();
-  console.log(email, password);
+  // console.log(email, password);
 
   firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
     .then((user) => {
-      console.log("Logged in with uid" + user.uid);
+      // console.log("Logged in with uid" + user.uid);
     })
     .catch((error) => {
       var errorCode = error.code;
       var errorMessage = error.message;
 
-      console.log(errorCode, errorMessage);
+      // console.log(errorCode, errorMessage);
 
       buildAlert(false, errorMessage);
       formElement.parentElement.insertBefore(alertDiv, formElement);
@@ -56,6 +56,6 @@ firebase.auth().onAuthStateChanged((user) => {
 
     window.location.href = "/dashboard";
   } else {
-    console.log("No user is signed in");
+    // console.log("No user is signed in");
   }
 });

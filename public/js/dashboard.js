@@ -43,26 +43,25 @@ function readDB(userId) {
     .database()
     .ref("/" + userId)
     .once("value")
-    .then((snapshot) => snapshot.val())
-    .catch((err) => console.log(err));
+    .then((snapshot) => snapshot.val());
 }
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     var uid = user.uid;
-    console.log("Logged in with uid: " + uid);
-    console.log(user.email);
+    // console.log("Logged in with uid: " + uid);
+    // console.log(user.email);
     userEmailSpan.innerHTML = user.email;
 
     readDB(user.uid).then((data) => {
-      console.log(data);
+      // console.log(data);
       secretInput.value = data.secret;
 
       stopLoading();
     });
   } else {
     window.location.href = "/";
-    console.log("No user is signed in");
+    // console.log("No user is signed in");
   }
 });
 
@@ -92,7 +91,7 @@ secretForm.addEventListener("submit", (e) => {
   var user = firebase.auth().currentUser;
   var secret = getSecretFormdata();
 
-  console.log(user.uid, secret);
+  // console.log(user.uid, secret);
 
   writeDB(user.uid, secret)
     .then(() => {
@@ -101,7 +100,7 @@ secretForm.addEventListener("submit", (e) => {
       secretForm.parentElement.insertBefore(alertDiv, secretForm);
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
       buildAlert(false, "There was an error saving the data!");
       secretForm.parentElement.insertBefore(alertDiv, secretForm);
     })
