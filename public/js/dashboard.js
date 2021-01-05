@@ -3,6 +3,11 @@ const logoutBtn = document.getElementById("logoutBtn");
 const secretForm = document.getElementById("secretForm");
 const secretInput = document.getElementById("secretInput");
 
+function stopLoading() {
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("mainContainer").style.display = "block";
+}
+
 function writeDB(userId, secret) {
   return firebase
     .database()
@@ -32,6 +37,8 @@ firebase.auth().onAuthStateChanged((user) => {
     readDB(user.uid).then((data) => {
       console.log(data);
       secretInput.value = data.secret;
+
+      stopLoading();
     });
   } else {
     window.location.href = "/";
