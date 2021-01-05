@@ -21,6 +21,7 @@
     <script defer src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/8.2.1/firebase-auth.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.2.1/firebase-database.js"></script>
 
     <script defer src="./js/init-firebase.js"></script>
     <script defer src="./js/dashboard.js"></script>
@@ -34,9 +35,26 @@
         <p class="lead">Well, this is authenticated!</p>
         <hr class="my-4" />
         <h2 class="display-5">Welcome, <span id="userEmail"></span></h2>
-        <p class="text-muted">Theres nothing more to do here :(</p>
+
+        <form id="secretForm" class="row g-3 my-5 align-items-center justify-content-center" onsubmit="return false;">
+          <div class="form-floating col-12 col-md-5">
+            <textarea
+              class="form-control"
+              placeholder="Leave a comment here"
+              id="secretInput"
+              style="height: 100px"
+              required
+              name="secret"
+            ></textarea>
+            <label for="secretInput">Tell me a secret, I'll keep!</label>
+          </div>
+          <div class="col-12 col-md-2">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+        </div>
+
         <div class="row justify-content-center">
-          <div class="col-3"><a class="btn btn-primary btn-lg" id="logoutBtn" role="button">Logout</a></div>
+          <div class="col-4"><a class="btn btn-danger btn-lg" id="logoutBtn" role="button">Logout</a></div>
         </div>
       </div>
     </div>
