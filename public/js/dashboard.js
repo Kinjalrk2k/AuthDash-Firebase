@@ -8,6 +8,11 @@ function stopLoading() {
   document.getElementById("mainContainer").style.display = "block";
 }
 
+function startLoading() {
+  document.getElementById("loader").style.display = "flex";
+  document.getElementById("mainContainer").style.display = "none";
+}
+
 function writeDB(userId, secret) {
   return firebase
     .database()
@@ -67,16 +72,20 @@ function getSecretFormdata() {
 }
 
 secretForm.addEventListener("submit", (e) => {
+  startLoading();
   var user = firebase.auth().currentUser;
   var secret = getSecretFormdata();
 
   console.log(user.uid, secret);
 
   writeDB(user.uid, secret)
-    .then((res) => {
-      console.log(res);
+    .then(() => {
+      secretInput.value = secret;
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      stopLoading();
     });
 });
