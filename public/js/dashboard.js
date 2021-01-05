@@ -8,6 +8,7 @@ firebase.auth().onAuthStateChanged((user) => {
     console.log(user.email);
     userEmailSpan.innerHTML = user.email;
   } else {
+    window.location.href = "/";
     console.log("No user is signed in");
   }
 });
@@ -17,7 +18,7 @@ logoutBtn.addEventListener("click", (e) => {
     .auth()
     .signOut()
     .then(() => {
-      // Sign-out successful.
+      window.location.href = "/";
     })
     .catch((error) => {
       // An error happened.

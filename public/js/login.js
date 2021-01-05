@@ -48,8 +48,13 @@ formElement.addEventListener("submit", (e) => {
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    var uid = user.uid;
-    console.log("Logged in with uid: " + uid);
+    buildAlert(true, "You are already signed in!");
+    formElement.parentElement.insertBefore(alertDiv, formElement);
+
+    // var uid = user.uid;
+    // console.log("Logged in with uid: " + uid);
+
+    window.location.href = "/dashboard";
   } else {
     console.log("No user is signed in");
   }
