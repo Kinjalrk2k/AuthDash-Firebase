@@ -34,6 +34,7 @@ formElement.addEventListener("submit", (e) => {
     .createUserWithEmailAndPassword(email, password)
     .then((user) => {
       // console.log("Logged in with uid" + user.uid);
+      window.location.href = "/dashboard";
     })
     .catch((error) => {
       var errorCode = error.code;
@@ -53,8 +54,6 @@ firebase.auth().onAuthStateChanged((user) => {
 
     // var uid = user.uid;
     // console.log("Logged in with uid: " + uid);
-
-    window.location.href = "/dashboard";
   } else {
     // console.log("No user is signed in");
   }

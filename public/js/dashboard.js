@@ -53,12 +53,18 @@ firebase.auth().onAuthStateChanged((user) => {
     // console.log(user.email);
     userEmailSpan.innerHTML = user.email;
 
-    readDB(user.uid).then((data) => {
-      // console.log(data);
-      secretInput.value = data.secret;
-
-      stopLoading();
-    });
+    readDB(user.uid)
+      .then((data) => {
+        // console.log(data);
+        secretInput.value = data.secret;
+      })
+      .catch((err) => {
+        buildAlert(true, "You didn't tell me any of your secrets, go ahead!");
+        secretForm.parentElement.insertBefore(alertDiv, secretForm);
+      })
+      .finally(() => {
+        stopLoading();
+      });
   } else {
     window.location.href = "/";
     // console.log("No user is signed in");
