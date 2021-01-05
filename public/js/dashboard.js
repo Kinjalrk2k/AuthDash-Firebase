@@ -3,6 +3,22 @@ const logoutBtn = document.getElementById("logoutBtn");
 const secretForm = document.getElementById("secretForm");
 const secretInput = document.getElementById("secretInput");
 
+const alertDiv = document.createElement("div");
+alertDiv.setAttribute("role", "alert");
+
+function buildAlert(success, msg) {
+  resetAlert();
+  alertDiv.classList.add(success ? "alert-success" : "alert-danger");
+  alertDiv.innerHTML = msg;
+  alertDiv.innerHTML += `
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  `;
+}
+
+function resetAlert() {
+  alertDiv.classList = "alert alert-dismissible fade show";
+}
+
 function stopLoading() {
   document.getElementById("loader").style.display = "none";
   document.getElementById("mainContainer").style.display = "block";
@@ -27,9 +43,8 @@ function readDB(userId) {
     .database()
     .ref("/" + userId)
     .once("value")
-    .then((snapshot) => {
-      return snapshot.val();
-    });
+    .then((snapshot) => snapshot.val())
+    .catch((err) => console.log(err));
 }
 
 firebase.auth().onAuthStateChanged((user) => {
@@ -59,7 +74,8 @@ logoutBtn.addEventListener("click", (e) => {
       window.location.href = "/";
     })
     .catch((error) => {
-      // An error happened.
+      buildAlert(false, "Couldn't log out out!");
+      secretForm.parentElement.insertBefore(alertDiv, secretForm);
     });
 });
 
@@ -81,9 +97,13 @@ secretForm.addEventListener("submit", (e) => {
   writeDB(user.uid, secret)
     .then(() => {
       secretInput.value = secret;
+      buildAlert(true, "Your secret was secretly saved!");
+      secretForm.parentElement.insertBefore(alertDiv, secretForm);
     })
     .catch((err) => {
       console.log(err);
+      buildAlert(false, "There was an error saving the data!");
+      secretForm.parentElement.insertBefore(alertDiv, secretForm);
     })
     .finally(() => {
       stopLoading();
